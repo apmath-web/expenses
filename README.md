@@ -1,5 +1,5 @@
 # Expenses-service
-Ьicroservice calculating the maximum amount of payment
+Microservice calculating the maximum amount of payment
 
 ## For developers
 ### SetUp
