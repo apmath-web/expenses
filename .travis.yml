@@ -1,0 +1,15 @@
+language:
+  - go
+go:
+  - "1.11.x"
+before_script:
+  - go get -v github.com/gin-gonic/gin
+script:
+  - go build application.go
+  - go test ./... -cover -v
+  - docker build -t expenses .
+  - docker run -d -p 8080:8080 --name expenses_container expenses
+  - curl http://127.0.0.1:8080/v1/1
+  - docker stop expenses_container
+  - docker rm expenses_container
+  - docker rmi expenses
