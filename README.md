@@ -5,7 +5,7 @@ Microservice calculating the maximum amount of payment
 ### SetUp
 Для корректной развертки приложения и дальнейшей разработки необходимо клонировать его в по следующему пути
 `.../go/src/github.com/apmath-web/`
-Клонировать: `git clone https://github.com/apmath-web/clients`
+Клонировать: `git clone https://github.com/apmath-web/expenses`
 ### Running
 Для запуска необходимо запустить билд `application.go`
 `go build application.go`
