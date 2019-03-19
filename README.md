@@ -1,5 +1,5 @@
-# Client-service
-Micro service for handling user information
+# Expenses-service
+Ьicroservice calculating the maximum amount of payment
 
 ## For developers
 ### SetUp
