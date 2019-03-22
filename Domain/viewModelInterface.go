@@ -1,8 +1,13 @@
 package Domain
 
-type HelloWorldViewModel interface {
-	GetMessage() string
-	SetMessage(message string)
-	GetStatus() string
-	SetStatus(status string)
+type ValidationInterface interface {
+	AddMessage(msg MessageInterface)
+	GetMessages() []MessageInterface
+	SetMessage(msg string)
+	MarshalJSON() (b []byte, e error)
+	Empty() bool
+}
+
+type MessageInterface interface {
+	MarshalJSON() (b []byte, e error)
 }
