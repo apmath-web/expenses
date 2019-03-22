@@ -2,8 +2,8 @@ package applicationModels
 
 import "github.com/apmath-web/expenses/Domain"
 
-type HelloWorld struct {
-	Message string `json:"message"`
+type PersonApplicationModel struct {
+
 }
 
 func (hw *HelloWorld) GetMessage() string {
