@@ -1,19 +1,15 @@
 package viewModels
 
-import (
-	"encoding/json"
-	"github.com/apmath-web/clients/Domain"
-)
+import "github.com/apmath-web/expenses/Application/Validation"
 
 type JsonIds struct {
-	//Тут такой джейсон???
-	ClientId int `json:"ClientId"`
-	CoborrowersIdSlice []int `json:"CoBorrowersIds"`
+	ClientId           int   `json:"clientId"`    //ID заемщика
+	CoborrowersIdSlice []int `json:"coBorrowers"` //Cписок ID созаемщиков
 }
 
 type IdsViewModel struct {
 	JsonIds
-	//Тут как поключить валдиацию???
+	validation Validation.Validation
 }
 
 func (idsViewModel *IdsViewModel) GetClienId() int {
@@ -24,61 +20,27 @@ func (idsViewModel *IdsViewModel) GetCoborrowersIdSlice() []int {
 	return idsViewModel.CoborrowersIdSlice
 }
 
-func (idsViewModel *IdsViewModel) validateClientId() {
-	//if idsViewModel.ClienId < 0 { Почему не работает?
-	//	//Валидация и ла ла ла
-	//	//idsViewModel.validation.AddMessage(validation.GenMessage("Id", "Is negative"))
-	//}
+func (idsViewModel *IdsViewModel) validateClientId() bool {
+	if idsViewModel.ClientId < 0 {
+		idsViewModel.validation.AddMessage(Validation.GenMessage("clienId", "Is negative"))
+		return false
+	}
+	return true
 }
 
-func (idsViewModel *IdsViewModel) validateCoBorrowerIdSlice() {
+func (idsViewModel *IdsViewModel) validateCoBorrowerIdSlice() bool {
 	for _, id := range idsViewModel.CoborrowersIdSlice {
-		//if !id.Validate() { //Как это работает???
-			//for _, msg := range id.GetValidation().GetMessages() {
-		//idsViewModel.validation.AddMessage(msg)
-			}
+		if id < 0 {
+			idsViewModel.validation.AddMessage(Validation.GenMessage("coBorrowers", "Is negative"))
+			return false
 		}
 	}
+	return true
 }
 
 func (idsViewModel *IdsViewModel) Validate() bool {
-	idsViewModel.validateClientId()
-	idsViewModel.validateCoBorrowerIdSlice()
-	return true;
-}
-
-//func (idsViewModel *IdsViewModel) GetValidation() Domain.ValidationInterface { Это для чего?
-//	return &idsViewModel.validation
-//}
-
-func (idsViewModel *IdsViewModel) MarshalJSON() (b []byte, e error) { //Тута так?
-	return json.Marshal(map[string]interface{}{
-		"CientId": idsViewModel.ClientId,
-		"CoBorrowersIds": idsViewModel.CoborrowersIdSlice,
-	})
-}
-
-func (idsViewModel *IdsViewModel) UnmarshalJSON(b []byte) error {
-	tmpClient := JsonIds{}
-	err := json.Unmarshal(b, &tmpClient)
-	if err := json.Unmarshal(b, &tmpClient); err != nil {
-		return err
+	if idsViewModel.validateClientId() && idsViewModel.validateCoBorrowerIdSlice() {
+		return true
 	}
-	idsViewModel.JsonIds = tmpClient
-	return err
+	return false
 }
-
-//func (idsViewModel *IdsViewModel) Hydrate(client Domain.viewModelInreface) { Тут что должно быть???
-//	c.FirstName = client.GetFirstName()
-//	c.LastName = client.GetLastName()
-//	c.BirthDate = client.GetBirthDate()
-//	c.Sex = client.GetSex()
-//	c.MaritalStatus = client.GetMaritalStatus()
-//	c.Children = client.GetChildren()
-//	for _, job := range client.GetJobs() {
-//		tmpJob := JobViewModel{}
-//		tmpJob.Hydrate(job)
-//		c.Jobs = append(c.Jobs, tmpJob)
-//	}
-
-//}
