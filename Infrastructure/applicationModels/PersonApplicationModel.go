@@ -1,12 +1,16 @@
 package applicationModels
 
-import "github.com/apmath-web/expenses/Domain"
+import "encoding/json"
 
-type PersonApplicationModel struct {
+type JsonPerson struct {
 	Id        int                   `json:"id"`
 	FirstName string                `json:"firstName"`
 	LastName  string                `json:"lastName"`
 	Jobs      []JobApplicationModel `json:"jobs"`
+}
+
+type PersonApplicationModel struct {
+	JsonPerson
 }
 
 func (person *PersonApplicationModel) GetId() int {
@@ -25,8 +29,12 @@ func (person *PersonApplicationModel) GetJobs() []JobApplicationModel {
 	return person.Jobs
 }
 
-func GenHelloWorldApplicationModel(message string) Domain.HelloWorldApplicationModel {
-	hw := new(HelloWorld)
-	hw.SetMessage(message)
-	return hw
+func (person *PersonApplicationModel) UnmarshalJSON(b []byte) error {
+	tmpPerson := JsonPerson{}
+	err := json.Unmarshal(b, &tmpPerson)
+	if err != nil {
+		return err
+	}
+	person.JsonPerson = tmpPerson
+	return err
 }
