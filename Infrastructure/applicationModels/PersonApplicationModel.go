@@ -6,7 +6,7 @@ type PersonApplicationModel struct {
 	Id        int
 	FirstName string
 	LastName  string
-	Wage      int
+	Jobs      []JobApplicationModel
 }
 
 func (person *PersonApplicationModel) GetId() int {
