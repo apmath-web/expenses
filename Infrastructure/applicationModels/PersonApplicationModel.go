@@ -21,8 +21,8 @@ func (person *PersonApplicationModel) GeLastName() string {
 	return person.LastName
 }
 
-func (person *PersonApplicationModel) GetWage() int {
-	return person.Wage
+func (person *PersonApplicationModel) GetJobs() []JobApplicationModel {
+	return person.Jobs
 }
 
 func GenHelloWorldApplicationModel(message string) Domain.HelloWorldApplicationModel {
