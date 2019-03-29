@@ -3,15 +3,26 @@ package applicationModels
 import "github.com/apmath-web/expenses/Domain"
 
 type PersonApplicationModel struct {
-
+	Id        int
+	FirstName string
+	LastName  string
+	Wage      int
 }
 
-func (hw *HelloWorld) GetMessage() string {
-	return hw.Message
+func (person *PersonApplicationModel) GetId() int {
+	return person.Id
 }
 
-func (hw *HelloWorld) SetMessage(message string) {
-	hw.Message = message
+func (person *PersonApplicationModel) GetFirstName() string {
+	return person.FirstName
+}
+
+func (person *PersonApplicationModel) GeLastName() string {
+	return person.LastName
+}
+
+func (person *PersonApplicationModel) GetWage() int {
+	return person.Wage
 }
 
 func GenHelloWorldApplicationModel(message string) Domain.HelloWorldApplicationModel {
