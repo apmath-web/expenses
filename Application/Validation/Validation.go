@@ -1,6 +1,9 @@
 package Validation
 
-import "github.com/apmath-web/expenses/Domain"
+import (
+	"encoding/json"
+	"github.com/apmath-web/expenses/Domain"
+)
 
 type Validation struct {
 	message  string
@@ -20,4 +23,10 @@ func GenMessage(field, text string) *Message {
 
 type Message struct {
 	text, field string
+}
+
+func (m *Message) MarshalJSON() (b []byte, e error) {
+	return json.Marshal(map[string]string{
+		m.field: m.text,
+	})
 }
