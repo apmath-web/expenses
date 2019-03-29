@@ -1,6 +1,9 @@
 package viewModels
 
-import "github.com/apmath-web/expenses/Application/Validation"
+import (
+	"encoding/json"
+	"github.com/apmath-web/expenses/Application/Validation"
+)
 
 type JsonIds struct {
 	ClientId           int   `json:"clientId"`    //ID заемщика
@@ -43,4 +46,14 @@ func (idsViewModel *IdsViewModel) Validate() bool {
 		return true
 	}
 	return false
+}
+
+func (idsViewModel *IdsViewModel) UnmarshalJSON(b []byte) error {
+	tmpClient := JsonIds{}
+	err := json.Unmarshal(b, &tmpClient)
+	if err := json.Unmarshal(b, &tmpClient); err != nil {
+		return err
+	}
+	idsViewModel.JsonIds = tmpClient
+	return err
 }
