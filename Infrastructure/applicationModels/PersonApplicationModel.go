@@ -3,10 +3,10 @@ package applicationModels
 import "github.com/apmath-web/expenses/Domain"
 
 type PersonApplicationModel struct {
-	Id        int
-	FirstName string
-	LastName  string
-	Jobs      []JobApplicationModel
+	Id        int                   `json:"id"`
+	FirstName string                `json:"firstName"`
+	LastName  string                `json:"lastName"`
+	Jobs      []JobApplicationModel `json:"jobs"`
 }
 
 func (person *PersonApplicationModel) GetId() int {
