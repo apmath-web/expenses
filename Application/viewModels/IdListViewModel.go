@@ -49,11 +49,11 @@ func (idsViewModel *IdsViewModel) Validate() bool {
 }
 
 func (idsViewModel *IdsViewModel) UnmarshalJSON(b []byte) error {
-	tmpClient := JsonIds{}
-	err := json.Unmarshal(b, &tmpClient)
-	if err := json.Unmarshal(b, &tmpClient); err != nil {
+	tmpIds := JsonIds{}
+	err := json.Unmarshal(b, &tmpIds)
+	if err := json.Unmarshal(b, &tmpIds); err != nil {
 		return err
 	}
-	idsViewModel.JsonIds = tmpClient
+	idsViewModel.JsonIds = tmpIds
 	return err
 }
