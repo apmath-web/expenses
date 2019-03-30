@@ -3,7 +3,6 @@ package applicationModels
 import "encoding/json"
 
 type JsonPerson struct {
-	Id        int                   `json:"id"`
 	FirstName string                `json:"firstName"`
 	LastName  string                `json:"lastName"`
 	Jobs      []JobApplicationModel `json:"jobs"`
@@ -11,10 +10,6 @@ type JsonPerson struct {
 
 type PersonApplicationModel struct {
 	JsonPerson
-}
-
-func (person *PersonApplicationModel) GetId() int {
-	return person.Id
 }
 
 func (person *PersonApplicationModel) GetFirstName() string {
