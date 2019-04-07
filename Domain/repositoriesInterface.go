@@ -4,3 +4,7 @@ type repositoryInterface interface {
 	GetModel(id int) HelloWorldApplicationModel
 	PutModel(model HelloWorldApplicationModel) int
 }
+
+type ExpensesRepositoryInterface interface {
+	GetPerson(id int) PersonDomainModelInterface
+}
