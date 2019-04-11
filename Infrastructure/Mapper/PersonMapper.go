@@ -12,8 +12,6 @@ func SumWageJob (jobs []applicationModels.JobApplicationModel) int {
 		sum += value.Wage
 	}
 	return sum
-
-
 }
 
 func PersonApplicationMapper (am applicationModels.PersonApplicationModel) Domain.PersonDomainModelInterface {
