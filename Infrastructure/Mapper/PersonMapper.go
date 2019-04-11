@@ -8,7 +8,7 @@ import (
 
 func SumWageJob (jobs []applicationModels.JobApplicationModel) int {
 	var sum int
-	for _, value = range jobs{
+	for _, value := range jobs{
 		sum += value.Wage
 	}
 	return sum
