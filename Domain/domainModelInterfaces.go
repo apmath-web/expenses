@@ -15,3 +15,6 @@ type JobDomainModelInterface interface {
 	GetName() string
 	GetWage() int
 }
+
+type IdsModelInterface interface {
+}
