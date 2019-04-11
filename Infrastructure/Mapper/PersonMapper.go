@@ -6,7 +6,7 @@ import (
 	"github.com/apmath-web/expenses/Infrastructure/applicationModels"
 )
 
-func SumWageJob (jobs []applicationModels.JobApplicationModel) float64 {
+func SumWageJob (jobs []applicationModels.JobApplicationModel) int {
 	var sum int
 	for _, value := range jobs{
 		sum += value.Wage
