@@ -4,7 +4,6 @@ type PersonDomainModel struct {
 	FirstName string
 	LastName  string
 	SumWage   int
-	MaxValue  int
 }
 
 func (person *PersonDomainModel) GetFirstName() string {
@@ -17,6 +16,16 @@ func (person *PersonDomainModel) GetLastName() string {
 
 func (person *PersonDomainModel) GetSumWage() int {
 	return person.SumWage
+}
+
+func Calculate(persons []PersonDomainModel) float64 {
+	var MaxValue float64
+	var SumWagePerson int
+	for _, value := range persons {
+		SumWagePerson += value.SumWage
+	}
+	MaxValue = float64(SumWagePerson) / float64(len(persons))
+	return MaxValue
 }
 
 
