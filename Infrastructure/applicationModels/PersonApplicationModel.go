@@ -1,6 +1,8 @@
 package applicationModels
 
-import "encoding/json"
+import (
+	"encoding/json"
+)
 
 type JsonPerson struct {
 	FirstName string                `json:"firstName"`
@@ -32,4 +34,12 @@ func (person *PersonApplicationModel) UnmarshalJSON(b []byte) error {
 	}
 	person.JsonPerson = tmpPerson
 	return err
+}
+
+func (person *PersonApplicationModel) GetSumWage() int {
+	var sum int
+	for _, value := range person.Jobs {
+		sum += value.Wage
+	}
+	return sum
 }

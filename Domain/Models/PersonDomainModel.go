@@ -1,5 +1,7 @@
 package Models
 
+import "math"
+
 type PersonDomainModel struct {
 	FirstName string
 	LastName  string
@@ -11,7 +13,7 @@ func (person *PersonDomainModel) GetFirstName() string {
 }
 
 func (person *PersonDomainModel) GetLastName() string {
-	return person.FirstName
+	return person.LastName
 }
 
 func (person *PersonDomainModel) GetSumWage() int {
@@ -24,7 +26,7 @@ func Calculate(persons []PersonDomainModel) float64 {
 	for _, value := range persons {
 		SumWagePerson += value.SumWage
 	}
-	MaxValue = float64(SumWagePerson) / float64(len(persons))
+	MaxValue = math.Ceil(float64(SumWagePerson) / float64(len(persons) * 100) / 100)
 	return MaxValue
 }
 
