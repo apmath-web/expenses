@@ -7,6 +7,16 @@ type HelloWorldApplicationModel interface {
 
 type PersonDomainModelInterface interface {
 	GetFirstName() string
-	GetLastName()  string
-	GetSumWage()   int
+	GetLastName() string
+	GetJobs() []JobDomainModelInterface
+}
+
+type JobDomainModelInterface interface {
+	GetName() string
+	GetWage() int
+}
+
+type IdsModelInterface interface {
+	GetClientId() int
+	GetCoborrowersIdSlice() []int
 }
