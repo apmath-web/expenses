@@ -16,7 +16,7 @@ type JobDomainModelInterface interface {
 	GetWage() int
 }
 
-type IdsModelInterface interface {
+type IdsDomainModelInterface interface {
 	GetClientId() int
 	GetCoborrowersIdSlice() []int
 }
