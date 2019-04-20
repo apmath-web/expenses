@@ -1,8 +1,8 @@
 package Mapper
 
 import (
-	"github.com/apmath-web/expenses/Domain"
 	"github.com/apmath-web/expenses/Domain/models"
+	"github.com/apmath-web/expenses/Domain"
 	"github.com/apmath-web/expenses/Infrastructure/applicationModels"
 )
 
