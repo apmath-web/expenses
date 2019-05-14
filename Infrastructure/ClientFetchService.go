@@ -1,29 +1,64 @@
 package Infrastructure
 
 import (
+	"encoding/json"
+	"fmt"
+	"github.com/apmath-web/expenses/Domain"
+	"github.com/apmath-web/expenses/Domain/models"
+	"github.com/apmath-web/expenses/Infrastructure/Mapper"
 	"github.com/apmath-web/expenses/Infrastructure/applicationModels"
-	"io/ioutil"
-	"log"
+	"io"
 	"net/http"
+	"os"
 	"strconv"
+	"sync"
 )
+
+type url struct {
+	url string
+}
+
+func (u *url) GenURL() {
+	host := os.Getenv("CLIENT_HOST")
+	port := os.Getenv("CLIENT_PORT")
+	version := os.Getenv("VERSION")
+	u.url = "http://" + host + ":" + port + "/" + version + "/"
+}
+
+var instantiated *url
+var once sync.Once
+
+func GetURL() *url {
+	once.Do(func() {
+		instantiated.GenURL()
+		instantiated = &url{}
+	})
+	return instantiated
+}
 
 type clientFetchService struct{}
 
-func (clfs *clientFetchService) Fetch(id int) *applicationModels.PersonApplicationModel {
-	resp, err := http.Get("http://0.0.0.0:8080/v1/:" + strconv.Itoa(id))
+func (clfs *clientFetchService) Fetch(id int) (Domain.PersonDomainModelInterface, error) {
+	resp, err := http.Get(GetURL().url + strconv.Itoa(id))
 	if err != nil {
-		return nil
+		var pdm = new(models.PersonDomainModel)
+		return pdm, err
 	}
-
 	person := new(applicationModels.PersonApplicationModel)
-	defer resp.Body.Close()
 	if resp.StatusCode == http.StatusOK {
-		bodyBytes, err := ioutil.ReadAll(resp.Body)
-		if err != nil {
-			log.Fatal(err)
+		dec := json.NewDecoder(resp.Body)
+		for {
+			if err := dec.Decode(&person); err == io.EOF {
+				break
+			} else if err != nil {
+				var pdm = new(models.PersonDomainModel)
+				return pdm, err
+			}
 		}
-		person.UnmarshalJSON(bodyBytes)
+	} else {
+		var pdm = new(models.PersonDomainModel)
+		return pdm, err
 	}
-	return person
+	var pdm = Mapper.PersonApplicationMapper(*person)
+	return pdm, nil
 }
