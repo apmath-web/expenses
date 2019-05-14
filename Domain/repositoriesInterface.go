@@ -1,6 +1,8 @@
 package Domain
 
-import "github.com/apmath-web/expenses/Infrastructure/applicationModels"
+import (
+	"github.com/apmath-web/expenses/Domain/models"
+)
 
 type repositoryInterface interface {
 	GetModel(id int) HelloWorldApplicationModel
@@ -13,5 +15,5 @@ type ExpensesInterface interface {
 }
 
 type ClientFetchInterface interface {
-	Fetch(id int) *applicationModels.PersonApplicationModel
+	Fetch(id int) models.PersonDomainModel
 }
