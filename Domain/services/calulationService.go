@@ -9,21 +9,29 @@ type calculationService struct {
 	clientFetcher Domain.ClientFetchInterface
 }
 
-func (cs *calculationService) Calculate(ids models.IdsDomainModel) Domain.ExpensesInterface {
+func (cs *calculationService) Calculate(ids models.IdsDomainModel) (Domain.ExpensesInterface, error) {
 	var persons []Domain.PersonDomainModelInterface
 
-	var pdm = cs.clientFetcher.Fetch(ids.ClientId)
-	persons = append(persons, &pdm)
+	var pdm, err = cs.clientFetcher.Fetch(ids.ClientId)
+	if err != nil {
+		var expenses = new(models.ExpensesDomainModel)
+		return expenses, err
+	}
+	persons = append(persons, pdm)
 
 	for _, value := range ids.CoborrowersIdSlice {
-		var pdm = cs.clientFetcher.Fetch(value)
-		persons = append(persons, &pdm)
+		var pdm, err = cs.clientFetcher.Fetch(value)
+		if err != nil {
+			var expenses = new(models.ExpensesDomainModel)
+			return expenses, err
+		}
+		persons = append(persons, pdm)
 	}
 
 	var maxValue = models.Calculate(persons)
 	var expenses = models.GenExpensesDomainModel(maxValue)
 
-	return expenses
+	return expenses, nil
 }
 
 func (cs *calculationService) GenCalculationService(clientFetch Domain.ClientFetchInterface) {
