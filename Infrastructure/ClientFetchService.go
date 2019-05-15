@@ -5,51 +5,45 @@ import (
 	"github.com/apmath-web/expenses/Domain"
 	"github.com/apmath-web/expenses/Infrastructure/Mapper"
 	"github.com/apmath-web/expenses/Infrastructure/applicationModels"
-	"io"
 	"net/http"
 	"os"
 	"strconv"
 	"sync"
 )
 
-type url struct {
+type clientFetchService struct {
 	url string
 }
 
-func (u *url) GenURL() {
+func (u *clientFetchService) GenURL() {
 	host := os.Getenv("CLIENT_HOST")
 	port := os.Getenv("CLIENT_PORT")
 	version := os.Getenv("VERSION")
 	u.url = "http://" + host + ":" + port + "/" + version + "/"
 }
 
-var instantiated *url
+var instantiated *clientFetchService
 var once sync.Once
 
-func GetURL() *url {
+func GenClientFetchService() Domain.ClientFetchInterface {
 	once.Do(func() {
+		instantiated = &clientFetchService{}
 		instantiated.GenURL()
-		instantiated = &url{}
 	})
 	return instantiated
 }
 
-type clientFetchService struct{}
-
 func (clfs *clientFetchService) Fetch(id int) (Domain.PersonDomainModelInterface, error) {
-	resp, err := http.Get(GetURL().url + strconv.Itoa(id))
+	resp, err := http.Get(clfs.url + strconv.Itoa(id))
 	if err != nil {
 		return nil, err
 	}
 	person := new(applicationModels.PersonApplicationModel)
 	if resp.StatusCode == http.StatusOK {
 		dec := json.NewDecoder(resp.Body)
-		for {
-			if err := dec.Decode(&person); err == io.EOF {
-				break
-			} else if err != nil {
-				return nil, err
-			}
+		err := dec.Decode(&person)
+		if err != nil {
+			return nil, err
 		}
 	} else {
 		return nil, err
