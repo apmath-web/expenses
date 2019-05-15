@@ -49,6 +49,6 @@ func (clfs *clientFetchService) Fetch(id int) (Domain.PersonDomainModelInterface
 	} else {
 		return nil, errors.New("Client returns error")
 	}
-	var pdm = Mapper.PersonApplicationMapper(*person)
+	pdm := Mapper.PersonApplicationMapper(*person)
 	return pdm, nil
 }
