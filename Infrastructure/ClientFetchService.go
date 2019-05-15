@@ -19,7 +19,7 @@ func (u *clientFetchService) GenURL() {
 	host := os.Getenv("CLIENT_HOST")
 	port := os.Getenv("CLIENT_PORT")
 	version := os.Getenv("VERSION")
-	u.url = "http://" + host + ":" + port + "/" + version + "/"
+	clfs.url = "http://" + host + ":" + port + "/" + version + "/"
 }
 
 var instantiated *clientFetchService
