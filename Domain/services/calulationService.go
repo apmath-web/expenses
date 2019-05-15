@@ -23,7 +23,7 @@ func (cs *calculationService) Calculate(ids models.IdsDomainModel) (Domain.Expen
 		var pdm, err = cs.clientFetcher.Fetch(value)
 		if err != nil {
 			var expenses = new(models.ExpensesDomainModel)
-			return expenses, err
+			return nil, err
 		}
 		persons = append(persons, pdm)
 	}
