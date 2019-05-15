@@ -5,6 +5,6 @@ type repositoryInterface interface {
 	PutModel(model HelloWorldApplicationModel) int
 }
 
-type ExpensesRepositoryInterface interface {
-	GetPerson(id int) PersonDomainModelInterface
+type ClientFetchInterface interface {
+	Fetch(id int) (PersonDomainModelInterface, error)
 }

@@ -1,6 +1,9 @@
 package models
 
-import "math"
+import (
+	"github.com/apmath-web/expenses/Domain"
+	"math"
+)
 
 type PersonDomainModel struct {
 	FirstName string
@@ -20,14 +23,12 @@ func (person *PersonDomainModel) GetSumWage() int {
 	return person.SumWage
 }
 
-func Calculate(persons []PersonDomainModel) float64 {
+func Calculate(persons []Domain.PersonDomainModelInterface) float64 {
 	var MaxValue float64
 	var SumWagePerson int
 	for _, value := range persons {
-		SumWagePerson += value.SumWage
+		SumWagePerson += value.GetSumWage()
 	}
-	MaxValue = math.Ceil(float64(SumWagePerson) / float64(len(persons) * 100) / 100)
+	MaxValue = math.Ceil(float64(SumWagePerson) / float64(len(persons)*100) / 100)
 	return MaxValue
 }
-
-
