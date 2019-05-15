@@ -3,7 +3,6 @@ package Infrastructure
 import (
 	"encoding/json"
 	"github.com/apmath-web/expenses/Domain"
-	"github.com/apmath-web/expenses/Domain/models"
 	"github.com/apmath-web/expenses/Infrastructure/Mapper"
 	"github.com/apmath-web/expenses/Infrastructure/applicationModels"
 	"io"
@@ -40,8 +39,7 @@ type clientFetchService struct{}
 func (clfs *clientFetchService) Fetch(id int) (Domain.PersonDomainModelInterface, error) {
 	resp, err := http.Get(GetURL().url + strconv.Itoa(id))
 	if err != nil {
-		var pdm = new(models.PersonDomainModel)
-		return pdm, err
+		return nil, err
 	}
 	person := new(applicationModels.PersonApplicationModel)
 	if resp.StatusCode == http.StatusOK {
@@ -50,12 +48,10 @@ func (clfs *clientFetchService) Fetch(id int) (Domain.PersonDomainModelInterface
 			if err := dec.Decode(&person); err == io.EOF {
 				break
 			} else if err != nil {
-				var pdm = new(models.PersonDomainModel)
-				return pdm, err
+				return nil, err
 			}
 		}
 	} else {
-		var pdm = new(models.PersonDomainModel)
 		return nil, err
 	}
 	var pdm = Mapper.PersonApplicationMapper(*person)

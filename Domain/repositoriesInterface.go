@@ -5,11 +5,6 @@ type repositoryInterface interface {
 	PutModel(model HelloWorldApplicationModel) int
 }
 
-type ExpensesInterface interface {
-	GetAmount() float64
-	SetAmount(amount float64)
-}
-
 type ClientFetchInterface interface {
 	Fetch(id int) (PersonDomainModelInterface, error)
 }
