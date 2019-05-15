@@ -2,6 +2,7 @@ package Infrastructure
 
 import (
 	"encoding/json"
+	"errors"
 	"github.com/apmath-web/expenses/Domain"
 	"github.com/apmath-web/expenses/Infrastructure/Mapper"
 	"github.com/apmath-web/expenses/Infrastructure/applicationModels"
@@ -15,7 +16,7 @@ type clientFetchService struct {
 	url string
 }
 
-func (u *clientFetchService) GenURL() {
+func (clfs *clientFetchService) GenURL() {
 	host := os.Getenv("CLIENT_HOST")
 	port := os.Getenv("CLIENT_PORT")
 	version := os.Getenv("VERSION")
