@@ -39,11 +39,19 @@ func GetExpenses(c *gin.Context) {
 	ei, err := service.Calculate(dm)
 
 	if err != nil {
-		validator := vm.GetValidation()
-		validator.SetMessage("validation error")
-		validator.AddMessage(Validation.GenMessage("clientId", err.Error()))
-		str, _ := json.Marshal(validator)
-		c.String(http.StatusBadRequest, string(str))
+		if err.Error() == "clients service not available" {
+			c.String(http.StatusInternalServerError, string(err.Error()))
+			return
+		}
+		if err.Error() == "bad request" {
+			c.String(http.StatusBadRequest, string(err.Error()))
+			return
+		}
+		if err.Error() == "client not found" {
+			c.String(http.StatusNotFound, string(err.Error()))
+			return
+		}
+		c.String(http.StatusBadRequest, string(err.Error()))
 		return
 	}
 
