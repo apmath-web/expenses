@@ -18,7 +18,6 @@ func GetExpenses(c *gin.Context) {
 	if err := c.BindJSON(&vm); err != nil {
 		validator := Validation.GenValidation()
 		validator.SetMessage("validation error")
-		validator.AddMessage(Validation.GenMessage("clientId", err.Error()))
 		str, _ := json.Marshal(validator)
 		c.String(http.StatusBadRequest, string(str))
 		return
