@@ -19,21 +19,6 @@ func (expensesViewModel *ExpensesViewModel) GetAmount() float64 {
 	return expensesViewModel.amount
 }
 
-func (expensesViewModel *ExpensesViewModel) validateAmount() bool {
-	if expensesViewModel.amount < 0 {
-		expensesViewModel.validation.AddMessage(Validation.GenMessage("amount", "Is negative"))
-		return false
-	}
-	return true
-}
-
-func (expensesViewModel *ExpensesViewModel) Validate() bool {
-	if expensesViewModel.validateAmount() {
-		return true
-	}
-	return false
-}
-
 func (expensesViewModel *ExpensesViewModel) MarshalJSON() (b []byte, e error) {
 	return json.Marshal(map[string]interface{}{
 		"maxPayment": expensesViewModel.amount,
