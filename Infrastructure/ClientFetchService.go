@@ -17,8 +17,8 @@ type clientFetchService struct {
 }
 
 func (clfs *clientFetchService) GenURL() {
-	host := os.Getenv("CLIENT_HOST")
-	port := os.Getenv("CLIENT_PORT")
+	host := os.Getenv("CLIENTS_HOST")
+	port := os.Getenv("CLIENTS_PORT")
 	version := os.Getenv("VERSION")
 	clfs.url = "http://" + host + ":" + port + "/" + version + "/"
 }
