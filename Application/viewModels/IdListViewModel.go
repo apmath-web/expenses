@@ -3,6 +3,7 @@ package viewModels
 import (
 	"encoding/json"
 	"github.com/apmath-web/expenses/Application/Validation"
+	"github.com/apmath-web/expenses/Domain"
 )
 
 type JsonIds struct {
@@ -56,4 +57,8 @@ func (idsViewModel *IdsViewModel) UnmarshalJSON(b []byte) error {
 	}
 	idsViewModel.JsonIds = tmpIds
 	return err
+}
+
+func (idsViewModel *IdsViewModel) GetValidation() Domain.ValidationInterface {
+	return &idsViewModel.validation
 }
