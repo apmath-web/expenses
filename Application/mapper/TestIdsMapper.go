@@ -3,13 +3,15 @@ package mapper
 import (
 	"github.com/apmath-web/expenses/Application/viewModels"
 	"github.com/apmath-web/expenses/Domain/models"
+	"math/rand"
 	"testing"
 )
 
 func TestIdsViewMapper(t *testing.T) {
+	id := rand.Int()
+	idSlice := []int{rand.Int(), rand.Int(), rand.Int()}
+
 	vm := viewModels.IdsViewModel{}
-	id := 1
-	idSlice := []int{2, 3, 4}
 	vm.ClientId = id
 	vm.CoborrowersIdSlice = idSlice
 
