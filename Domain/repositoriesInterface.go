@@ -15,5 +15,5 @@ type CalculateInterface interface {
 	GetDecimalPlaces() int
 	SetDecimalPlaces(dp int)
 	Rounder(maxValue float64)
-	CalculateSum(persons []PersonDomainModelInterface) error
+	Calculate(persons []PersonDomainModelInterface) error
 }
