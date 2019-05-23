@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestCalculate(t *testing.T) {
+func TestCalculate (t *testing.T) {
 	var calc = CalculateService{}
 	var maxValue float64
 
@@ -14,7 +14,7 @@ func TestCalculate(t *testing.T) {
 		models.PersonDomainModel {
 			FirstName: "Ivan",
 			LastName:  "Ivanov",
-			SumWage:   5000,
+			SumWage:   1000,
 		},
 		models.PersonDomainModel {
 			FirstName: "Petr",
@@ -24,30 +24,31 @@ func TestCalculate(t *testing.T) {
 		models.PersonDomainModel {
 			FirstName: "Artem",
 			LastName: "Artemov",
-			SumWage: 6000,
+			SumWage: 3000,
 		},
 		models.PersonDomainModel {
 			FirstName: "Timur",
 			LastName: "Timurov",
-			SumWage: 7000,
+			SumWage: 4000,
 		},
 		models.PersonDomainModel {
 			FirstName: "Pasha",
 			LastName: "Pashov",
-			SumWage: 3000,
+			SumWage: 5000,
 		},
 	}
 
 	personInf := make([]Domain.PersonDomainModelInterface, len(persons))
 
 	for i, v := range persons{
-		personInf[i] = &v
+		personInf[i] = v
 	}
 
 	_ = calc.Calculate(personInf)
+	maxValue = calc.GetMaxValue()
 
-	if maxValue != 2300 {
-		t.Error("Incorrect answer for simple case")
+	if maxValue != 3000 {
+		t.Error("Incorrect answer for simple case", maxValue, calc.len, calc.sumWagePerson)
 	}
 
 	persons[0].SumWage = -1

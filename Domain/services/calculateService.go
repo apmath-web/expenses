@@ -9,6 +9,8 @@ import (
 type CalculateService struct {
 	MaxValue float64
 	DecimalPlaces int
+	len int
+	sumWagePerson int
 }
 
 func (cs *CalculateService) GetMaxValue() float64 {
@@ -60,6 +62,8 @@ func (cs *CalculateService) Calculate(persons []Domain.PersonDomainModelInterfac
 
 	maxValue = float64(sumWagePerson / len(persons))
 	cs.Rounder(maxValue)
+	cs.len = len(persons)
+	cs.sumWagePerson = sumWagePerson
 
 	return nil
 }
