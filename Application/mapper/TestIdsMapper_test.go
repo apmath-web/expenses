@@ -9,15 +9,15 @@ import (
 
 func TestIdsViewMapper(t *testing.T) {
 	id := rand.Int()
-	idSlice := []int{rand.Int(), rand.Int(), rand.Int()}
+	coborrowersIds := []int{rand.Int(), rand.Int(), rand.Int()}
 
 	vm := viewModels.IdsViewModel{}
 	vm.ClientId = id
-	vm.CoborrowersIdSlice = idSlice
+	vm.CoborrowersIdSlice = coborrowersIds
 
 	dm := models.IdsDomainModel{}
 	dm.ClientId = id
-	dm.CoborrowersIdSlice = idSlice
+	dm.CoborrowersIdSlice = coborrowersIds
 
 	resultId := IdsViewMapper(vm).GetClientId()
 	if resultId != dm.ClientId {
@@ -25,9 +25,9 @@ func TestIdsViewMapper(t *testing.T) {
 	}
 
 	resultIdSlice := IdsViewMapper(vm).GetCoborrowersIdSlice()
-	for i := 0; i < len(idSlice); i++ {
-		if resultIdSlice[i] != dm.CoborrowersIdSlice[i] {
-			t.Error("For", vm.CoborrowersIdSlice[i], "expected", dm.CoborrowersIdSlice[i], "got", resultIdSlice[i])
+	for i, id := range resultIdSlice {
+		if id != dm.CoborrowersIdSlice[i] {
+			t.Error("For", vm.CoborrowersIdSlice[i], "expected", dm.CoborrowersIdSlice[i], "got", id)
 			break
 		}
 	}
