@@ -48,6 +48,8 @@ func (cs *CalculateService) Calculate(persons []Domain.PersonDomainModelInterfac
 	var maxValue float64
 	var sumWagePerson int
 
+	cs.SetDecimalPlaces(2)
+
 	for _, value := range persons {
 		if value.GetSumWage() <= 0 {
 			return errors.New("Wage is negative value or zero")
@@ -58,4 +60,6 @@ func (cs *CalculateService) Calculate(persons []Domain.PersonDomainModelInterfac
 
 	maxValue = float64(sumWagePerson / len(persons))
 	cs.Rounder(maxValue)
+
+	return nil
 }

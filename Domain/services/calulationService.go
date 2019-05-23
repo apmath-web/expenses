@@ -11,11 +11,13 @@ type CalculationService struct {
 
 func (cs *CalculationService) Calculate(ids Domain.IdsDomainModelInterface) (Domain.ExpensesInterface, error) {
 	var persons []Domain.PersonDomainModelInterface
-
+	var calc = CalculateService{}
 	var pdm, err = cs.clientFetcher.Fetch(ids.GetClientId())
+
 	if err != nil {
 		return nil, err
 	}
+
 	persons = append(persons, pdm)
 
 	for _, value := range ids.GetCoborrowersIdSlice() {
@@ -26,8 +28,13 @@ func (cs *CalculationService) Calculate(ids Domain.IdsDomainModelInterface) (Dom
 		persons = append(persons, pdm)
 	}
 
-	var maxValue = models.Calculate(persons)
-	var expenses = models.GenExpensesDomainModel(maxValue)
+	err = calc.Calculate(persons)
+
+	if err != nil {
+		return nil, err
+	}
+
+	var expenses = models.GenExpensesDomainModel(calc.GetMaxValue())
 
 	return expenses, nil
 }
