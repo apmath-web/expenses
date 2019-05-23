@@ -8,26 +8,24 @@ import (
 )
 
 func TestIdsViewMapper(t *testing.T) {
-	id := rand.Int()
+	clientId := rand.Int()
 	coborrowersIds := []int{rand.Int(), rand.Int(), rand.Int()}
 
 	vm := viewModels.IdsViewModel{}
-	vm.ClientId = id
+	vm.ClientId = clientId
 	vm.CoborrowersIdSlice = coborrowersIds
 
-	dm := models.IdsDomainModel{}
-	dm.ClientId = id
-	dm.CoborrowersIdSlice = coborrowersIds
+	dm := models.GenIds(clientId, coborrowersIds)
 
 	resultId := IdsViewMapper(vm).GetClientId()
-	if resultId != dm.ClientId {
-		t.Error("For", vm.ClientId, "expected", dm.ClientId, "got", resultId)
+	if resultId != dm.GetClientId() {
+		t.Error("For", vm.ClientId, "expected", dm.GetClientId(), "got", resultId)
 	}
 
 	resultIdSlice := IdsViewMapper(vm).GetCoborrowersIdSlice()
 	for i, id := range resultIdSlice {
-		if id != dm.CoborrowersIdSlice[i] {
-			t.Error("For", vm.CoborrowersIdSlice[i], "expected", dm.CoborrowersIdSlice[i], "got", id)
+		if id != dm.GetCoborrowersIdSlice()[i] {
+			t.Error("For", vm.CoborrowersIdSlice[i], "expected", dm.GetCoborrowersIdSlice()[i], "got", id)
 			break
 		}
 	}
