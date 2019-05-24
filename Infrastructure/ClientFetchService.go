@@ -34,8 +34,12 @@ func GenClientFetchService() Domain.ClientFetchInterface {
 	return instantiated
 }
 
+func (clfs *clientFetchService) GetURL() string {
+	return clfs.url
+}
+
 func (clfs *clientFetchService) Fetch(id int) (Domain.PersonDomainModelInterface, error) {
-	resp, err := http.Get(clfs.url + strconv.Itoa(id))
+	resp, err := http.Get(clfs.GetURL() + strconv.Itoa(id))
 	if resp == nil {
 		return nil, errors.New("clients service not available")
 	}
