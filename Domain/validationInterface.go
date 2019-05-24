@@ -10,4 +10,6 @@ type ValidationInterface interface {
 
 type MessageInterface interface {
 	MarshalJSON() (b []byte, e error)
+	GetField() string
+	GetText() string
 }
