@@ -11,15 +11,15 @@ type PersonDomainModel struct {
 	SumWage   int
 }
 
-func (person *PersonDomainModel) GetFirstName() string {
+func (person PersonDomainModel) GetFirstName() string {
 	return person.FirstName
 }
 
-func (person *PersonDomainModel) GetLastName() string {
+func (person PersonDomainModel) GetLastName() string {
 	return person.LastName
 }
 
-func (person *PersonDomainModel) GetSumWage() int {
+func (person PersonDomainModel) GetSumWage() int {
 	return person.SumWage
 }
 
