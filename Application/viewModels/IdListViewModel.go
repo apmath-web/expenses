@@ -39,6 +39,27 @@ func (idsViewModel *IdsViewModel) validateCoBorrowerIdSlice() bool {
 			return false
 		}
 	}
+
+	for _, id := range idsViewModel.CoborrowersIdSlice {
+		if id == idsViewModel.ClientId {
+			idsViewModel.validation.AddMessage(Validation.GenMessage("coBorrowers", "Coborrower's ID can't be equal to Client's ID"))
+			return false
+		}
+	}
+
+	for _, firstId := range idsViewModel.CoborrowersIdSlice {
+		count := 0
+		for _, secondId := range idsViewModel.CoborrowersIdSlice {
+			if secondId == firstId {
+				count++
+			}
+		}
+		if count >= 2 {
+			idsViewModel.validation.AddMessage(Validation.GenMessage("coBorrowers", "Some coborrower's IDs are equal to each other"))
+			return false
+		}
+	}
+
 	return true
 }
 
