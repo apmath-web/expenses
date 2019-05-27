@@ -34,7 +34,7 @@ func GetExpenses(c *gin.Context) {
 	dm := models.GenIds(vm.GetClienId(), vm.GetCoborrowersIdSlice())
 	service := services.CalculationService{}
 
-	clientFetchService := Infrastructure.GenClientFetchService()
+	clientFetchService := Infrastructure.GetServiceManager().GetClientFetchService()
 	service.GenCalculationService(clientFetchService)
 	ei, err := service.Calculate(dm)
 

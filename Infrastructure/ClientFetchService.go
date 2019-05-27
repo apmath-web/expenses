@@ -7,30 +7,22 @@ import (
 	"github.com/apmath-web/expenses/Infrastructure/Mapper"
 	"github.com/apmath-web/expenses/Infrastructure/applicationModels"
 	"net/http"
-	"os"
 	"strconv"
-	"sync"
 )
 
 type clientFetchService struct {
 	url string
 }
 
-func (clfs *clientFetchService) GenURL() {
-	host := os.Getenv("CLIENTS_HOST")
-	port := os.Getenv("CLIENTS_PORT")
-	version := os.Getenv("VERSION")
+func (clfs *clientFetchService) GenURL(host string, port string, version string) {
 	clfs.url = "http://" + host + ":" + port + "/" + version + "/"
 }
 
-var instantiated *clientFetchService
-var once sync.Once
 
-func GenClientFetchService() Domain.ClientFetchInterface {
-	once.Do(func() {
-		instantiated = &clientFetchService{}
-		instantiated.GenURL()
-	})
+func GenClientFetchService(host string, port string, version string) Domain.ClientFetchInterface {
+	var instantiated *clientFetchService
+	instantiated = &clientFetchService{}
+	instantiated.GenURL(host, port, version)
 	return instantiated
 }
 
