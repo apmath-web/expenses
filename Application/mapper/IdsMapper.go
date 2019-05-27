@@ -6,6 +6,6 @@ import (
 	"github.com/apmath-web/expenses/Domain/models"
 )
 
-func IdsViewMapper(vm viewModels.IdsViewModel) Domain.IdsDomainModelInterface {
-	return models.GenIds(vm.GetClienId(), vm.GetCoborrowersIdSlice())
+func IdsViewMapper(vm viewModels.IdsViewModel, clientId int) Domain.IdsDomainModelInterface {
+	return models.GenIds(clientId, vm.GetCoborrowersIdSlice())
 }
