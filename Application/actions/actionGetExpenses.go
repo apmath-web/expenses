@@ -9,9 +9,16 @@ import (
 	"github.com/apmath-web/expenses/Infrastructure"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 )
 
 func GetExpenses(c *gin.Context) {
+
+	clientId, err := strconv.Atoi(c.Param("clientId"))
+	if err != nil {
+		c.String(http.StatusBadRequest, string(err.Error()))
+		return
+	}
 
 	vm := viewModels.IdsViewModel{}
 
@@ -31,7 +38,7 @@ func GetExpenses(c *gin.Context) {
 		return
 	}
 
-	dm := models.GenIds(vm.GetClienId(), vm.GetCoborrowersIdSlice())
+	dm := models.GenIds(clientId, vm.GetCoborrowersIdSlice())
 	service := services.CalculationService{}
 
 	clientFetchService := Infrastructure.GenClientFetchService()
