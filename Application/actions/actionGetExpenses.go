@@ -21,7 +21,7 @@ func GetExpenses(c *gin.Context) {
 	}
 
 	if clientId < 0 {
-		c.String(http.StatusBadRequest, "Client's ID is negative:", string(clientId))
+		c.String(http.StatusBadRequest, "Client's ID is negative")
 		return
 	}
 
@@ -45,7 +45,7 @@ func GetExpenses(c *gin.Context) {
 
 	for _, id := range vm.CoborrowersIdSlice {
 		if id == clientId {
-			c.String(http.StatusBadRequest, "Client's ID is equal to coborrower's ID:", string(id))
+			c.String(http.StatusBadRequest, "Client's ID is equal to coborrower's ID")
 			return
 		}
 	}
