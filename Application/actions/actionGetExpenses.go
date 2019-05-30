@@ -16,7 +16,12 @@ func GetExpenses(c *gin.Context) {
 
 	clientId, err := strconv.Atoi(c.Param("clientId"))
 	if err != nil {
-		c.String(http.StatusBadRequest, string(err.Error()))
+		c.String(http.StatusBadRequest, string(err.Error()), string(clientId))
+		return
+	}
+
+	if clientId < 0 {
+		c.String(http.StatusBadRequest, "Client's ID is negative:", string(clientId))
 		return
 	}
 
@@ -36,6 +41,13 @@ func GetExpenses(c *gin.Context) {
 		str, _ := json.Marshal(validator)
 		c.String(http.StatusBadRequest, string(str))
 		return
+	}
+
+	for _, id := range vm.CoborrowersIdSlice {
+		if id == clientId {
+			c.String(http.StatusBadRequest, "Client's ID is equal to coborrower's ID:", string(id))
+			return
+		}
 	}
 
 	dm := models.GenIds(clientId, vm.GetCoborrowersIdSlice())
