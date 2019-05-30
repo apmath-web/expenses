@@ -14,15 +14,9 @@ type clientFetchService struct {
 	url string
 }
 
-func (clfs *clientFetchService) GenURL(host string, port string, version string) {
-	clfs.url = "http://" + host + ":" + port + "/" + version + "/"
-}
-
-
 func GenClientFetchService(host string, port string, version string) Domain.ClientFetchInterface {
 	var instantiated *clientFetchService
-	instantiated = &clientFetchService{}
-	instantiated.GenURL(host, port, version)
+	instantiated = &clientFetchService{"http://" + host + ":" + port + "/" + version + "/"}
 	return instantiated
 }
 
