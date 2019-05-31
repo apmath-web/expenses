@@ -44,6 +44,18 @@ func GenValidation() Domain.ValidationInterface {
 	return v
 }
 
+func Unique(intSlice []int) []int {
+	keys := make(map[int]bool)
+	list := []int{}
+	for _, entry := range intSlice {
+		if _, value := keys[entry]; !value {
+			keys[entry] = true
+			list = append(list, entry)
+		}
+	}
+	return list
+}
+
 func (v *Validation) GetMessages() []Domain.MessageInterface {
 	return v.messages
 }
@@ -53,4 +65,16 @@ func (v *Validation) MarshalJSON() (b []byte, e error) {
 		"message":     v.message,
 		"description": v.messages,
 	})
+}
+
+func (v *Validation) unique(intSlice []int) []int {
+	keys := make(map[int]bool)
+	list := []int{}
+	for _, entry := range intSlice {
+		if _, value := keys[entry]; !value {
+			keys[entry] = true
+			list = append(list, entry)
+		}
+	}
+	return list
 }
