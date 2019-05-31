@@ -22,13 +22,6 @@ func (idsViewModel *IdsViewModel) GetCoborrowersIdSlice() []int {
 func (idsViewModel *IdsViewModel) validateCoBorrowerIdSlice() bool {
 	for _, id := range idsViewModel.CoborrowersIdSlice {
 		if id < 0 {
-			str := "ID is negative: " + string(id)
-			idsViewModel.validation.AddMessage(Validation.GenMessage("coBorrowers", str))
-			return false
-		}
-	}
-	for _, id := range idsViewModel.CoborrowersIdSlice {
-		if id < 0 {
 			idsViewModel.validation.AddMessage(Validation.GenMessage("coBorrowers", "Is negative"))
 			return false
 		}
