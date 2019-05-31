@@ -16,12 +16,18 @@ func GetExpenses(c *gin.Context) {
 
 	clientId, err := strconv.Atoi(c.Param("clientId"))
 	if err != nil {
-		c.String(http.StatusBadRequest, string(err.Error()), string(clientId))
+		validator := Validation.GenValidation()
+		validator.SetMessage(err.Error())
+		str, _ := json.Marshal(validator)
+		c.String(http.StatusBadRequest, string(str))
 		return
 	}
 
 	if clientId < 0 {
-		c.String(http.StatusBadRequest, "Client's ID is negative")
+		validator := Validation.GenValidation()
+		validator.SetMessage("Client's ID is negative")
+		str, _ := json.Marshal(validator)
+		c.String(http.StatusBadRequest, string(str))
 		return
 	}
 
@@ -43,14 +49,12 @@ func GetExpenses(c *gin.Context) {
 		return
 	}
 
-	keys := make(map[int]bool)
-	for _, id := range vm.CoborrowersIdSlice {
-		if _, value := keys[id]; !value {
-			keys[id] = true
-		} else {
-			c.String(http.StatusBadRequest, "Client's ID is equal to coborrower's ID")
-			return
-		}
+	if len(Validation.Unique(vm.CoborrowersIdSlice)) != len(vm.CoborrowersIdSlice) {
+		validator := Validation.GenValidation()
+		validator.SetMessage("Client's ID is equal to coborrower's ID")
+		str, _ := json.Marshal(validator)
+		c.String(http.StatusBadRequest, string(str))
+		return
 	}
 
 	dm := models.GenIds(clientId, vm.GetCoborrowersIdSlice())
@@ -61,19 +65,22 @@ func GetExpenses(c *gin.Context) {
 	ei, err := service.Calculate(dm)
 
 	if err != nil {
+		validator := Validation.GenValidation()
+		validator.SetMessage(err.Error())
+		str, _ := json.Marshal(validator)
 		if err.Error() == "clients service not available" {
-			c.String(http.StatusInternalServerError, string(err.Error()))
+			c.String(http.StatusInternalServerError, string(str))
 			return
 		}
 		if err.Error() == "bad request" {
-			c.String(http.StatusBadRequest, string(err.Error()))
+			c.String(http.StatusBadRequest, string(str))
 			return
 		}
 		if err.Error() == "client not found" {
-			c.String(http.StatusNotFound, string(err.Error()))
+			c.String(http.StatusNotFound, string(str))
 			return
 		}
-		c.String(http.StatusBadRequest, string(err.Error()))
+		c.String(http.StatusBadRequest, string(str))
 		return
 	}
 
