@@ -43,8 +43,11 @@ func GetExpenses(c *gin.Context) {
 		return
 	}
 
+	keys := make(map[int]bool)
 	for _, id := range vm.CoborrowersIdSlice {
-		if id == clientId {
+		if _, value := keys[id]; !value {
+			keys[id] = true
+		} else {
 			c.String(http.StatusBadRequest, "Client's ID is equal to coborrower's ID")
 			return
 		}
