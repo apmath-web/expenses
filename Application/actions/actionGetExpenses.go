@@ -71,15 +71,15 @@ func GetExpenses(c *gin.Context) {
 		validator := Validation.GenValidation()
 		validator.SetMessage(err.Error())
 		str, _ := json.Marshal(validator)
-		if err.Error() == "Clients service not available" {
+		if err.Error() == Infrastructure.NotAvaliableMessage {
 			c.String(http.StatusInternalServerError, string(str))
 			return
 		}
-		if err.Error() == "Bad request" {
+		if err.Error() == Infrastructure.BadRequestMessage {
 			c.String(http.StatusBadRequest, string(str))
 			return
 		}
-		if err.Error() == "Client not found" {
+		if err.Error() == Infrastructure.NotFoundMessage {
 			c.String(http.StatusNotFound, string(str))
 			return
 		}

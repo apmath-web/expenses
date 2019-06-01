@@ -37,7 +37,7 @@ func GenClientFetchService() Domain.ClientFetchInterface {
 func (clfs *clientFetchService) Fetch(id int) (Domain.PersonDomainModelInterface, error) {
 	resp, err := http.Get(clfs.url + strconv.Itoa(id))
 	if resp == nil {
-		return nil, errors.New("Clients service not available")
+		return nil, errors.New(NotAvaliableMessage)
 	}
 	if err != nil {
 		return nil, err
@@ -52,10 +52,10 @@ func (clfs *clientFetchService) Fetch(id int) (Domain.PersonDomainModelInterface
 		}
 	}
 	if resp.StatusCode == http.StatusBadRequest {
-		return nil, errors.New("Bad request")
+		return nil, errors.New(BadRequestMessage)
 	}
 	if resp.StatusCode == http.StatusNotFound {
-		return nil, errors.New("Client not found")
+		return nil, errors.New(NotFoundMessage)
 	}
 	pdm := Mapper.PersonApplicationMapper(*person)
 	return pdm, nil
