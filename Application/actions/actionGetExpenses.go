@@ -17,7 +17,7 @@ func GetExpenses(c *gin.Context) {
 	clientId, err := strconv.Atoi(c.Param("clientId"))
 	if err != nil {
 		validator := Validation.GenValidation()
-		validator.SetMessage("Param error")
+		validator.SetMessage("Client's ID must be numeric")
 		str, _ := json.Marshal(validator)
 		c.String(http.StatusBadRequest, string(str))
 		return
