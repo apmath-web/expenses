@@ -25,18 +25,10 @@ func (idsViewModel *IdsViewModel) validateCoBorrowerIdSlice() bool {
 			idsViewModel.validation.AddMessage(Validation.GenMessage("coBorrowers", "Is negative"))
 			return false
 		}
-		for _, firstId := range idsViewModel.CoborrowersIdSlice {
-			count := 0
-			for _, secondId := range idsViewModel.CoborrowersIdSlice {
-				if secondId == firstId {
-					count++
-				}
-			}
-			if count >= 2 {
-				idsViewModel.validation.AddMessage(Validation.GenMessage("coBorrowers", "IDs are equal to each other"))
-				return false
-			}
-		}
+	}
+	if len(Validation.Unique(idsViewModel.CoborrowersIdSlice)) != len(idsViewModel.CoborrowersIdSlice) {
+		idsViewModel.validation.AddMessage(Validation.GenMessage("coBorrowers", "IDs are equal to each other"))
+		return false
 	}
 	return true
 }

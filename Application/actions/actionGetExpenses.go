@@ -17,7 +17,7 @@ func GetExpenses(c *gin.Context) {
 	clientId, err := strconv.Atoi(c.Param("clientId"))
 	if err != nil {
 		validator := Validation.GenValidation()
-		validator.SetMessage(err.Error())
+		validator.SetMessage("Param error")
 		str, _ := json.Marshal(validator)
 		c.String(http.StatusBadRequest, string(str))
 		return
@@ -25,7 +25,8 @@ func GetExpenses(c *gin.Context) {
 
 	if clientId < 0 {
 		validator := Validation.GenValidation()
-		validator.SetMessage("Client's ID is negative")
+		validator.SetMessage("Param error")
+		validator.AddMessage(Validation.GenMessage("clientId", "Is negative"))
 		str, _ := json.Marshal(validator)
 		c.String(http.StatusBadRequest, string(str))
 		return
@@ -35,7 +36,7 @@ func GetExpenses(c *gin.Context) {
 
 	if err := c.BindJSON(&vm); err != nil {
 		validator := Validation.GenValidation()
-		validator.SetMessage("validation error")
+		validator.SetMessage("Body error")
 		str, _ := json.Marshal(validator)
 		c.String(http.StatusBadRequest, string(str))
 		return
@@ -43,20 +44,22 @@ func GetExpenses(c *gin.Context) {
 
 	if !vm.Validate() {
 		validator := vm.GetValidation()
-		validator.SetMessage("validation error")
+		validator.SetMessage("Validation error")
 		str, _ := json.Marshal(validator)
 		c.String(http.StatusBadRequest, string(str))
 		return
 	}
 
-	if len(Validation.Unique(vm.CoborrowersIdSlice)) != len(vm.CoborrowersIdSlice) {
-		validator := Validation.GenValidation()
-		validator.SetMessage("Client's ID is equal to coborrower's ID")
-		str, _ := json.Marshal(validator)
-		c.String(http.StatusBadRequest, string(str))
-		return
+	for _, id := range vm.CoborrowersIdSlice {
+		if clientId == id {
+			validator := Validation.GenValidation()
+			validator.SetMessage("Validation error")
+			validator.AddMessage(Validation.GenMessage("coBorrowers", "Client's ID is equal to coborrower's ID"))
+			str, _ := json.Marshal(validator)
+			c.String(http.StatusBadRequest, string(str))
+			return
+		}
 	}
-
 	dm := models.GenIds(clientId, vm.GetCoborrowersIdSlice())
 	service := services.CalculationService{}
 
@@ -68,15 +71,15 @@ func GetExpenses(c *gin.Context) {
 		validator := Validation.GenValidation()
 		validator.SetMessage(err.Error())
 		str, _ := json.Marshal(validator)
-		if err.Error() == "clients service not available" {
+		if err.Error() == "Clients service not available" {
 			c.String(http.StatusInternalServerError, string(str))
 			return
 		}
-		if err.Error() == "bad request" {
+		if err.Error() == "Bad request" {
 			c.String(http.StatusBadRequest, string(str))
 			return
 		}
-		if err.Error() == "client not found" {
+		if err.Error() == "Client not found" {
 			c.String(http.StatusNotFound, string(str))
 			return
 		}
